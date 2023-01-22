@@ -42,7 +42,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: weshareus-build
-          path: /build
+          path: build
   Deploy:
     needs: Build
     runs-on: ubuntu-20.04
@@ -51,7 +51,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: weshareus-build
-          path: /build
+          path: build
 
       - name: Deploy
         env:
