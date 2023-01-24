@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  FormHelperText,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -28,14 +29,18 @@ function LoginForm() {
 
   // 3. state hooks
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   // 4. query hooks
-  const [loginUser] = useMutation(userRepository.login);
-
+  const [loginUser] = useMutation(userRepository.login, {
+    onError: (error: any) => {
+      setErrorMessage(error);
+    },
+  });
   // 5. form hooks
   const {
     register,
-    formState: { isValid },
+    formState: { isValid, errors },
     handleSubmit,
   } = useForm({
     mode: 'onChange',
@@ -60,7 +65,7 @@ function LoginForm() {
       <Stack spacing="24px">
         <div>
           <InputLabel>Account</InputLabel>
-          <TextField {...register('account')} fullWidth autoComplete="off" />
+          <TextField {...register('account')} fullWidth />
         </div>
         <div>
           <InputLabel>Password</InputLabel>
@@ -69,6 +74,7 @@ function LoginForm() {
             fullWidth
             variant="outlined"
             type={isShowPassword ? 'text' : 'password'}
+            error={!!errorMessage || !!errors.password}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -83,10 +89,16 @@ function LoginForm() {
               ),
             }}
           />
+          {errorMessage && (
+            <FormHelperText sx={{ color: 'red' }}>
+              {errorMessage}
+            </FormHelperText>
+          )}
         </div>
         <Button
           disabled={!isValid}
           onClick={handleSubmit(async ({ account, password }) => {
+            setErrorMessage('');
             const { token } = await loginUser({
               variables: { account, password },
             });

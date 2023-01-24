@@ -35,7 +35,7 @@ const useQuery = <T extends Record<string, any>, R>(
 const useMutation = <T, R>(
   MutationFn: (args: T) => Promise<R>,
   options?: {
-    onCompleted?: () => void;
+    onCompleted?: (result: R) => void;
     onError?: (error: Error) => void;
   },
 ): readonly [
@@ -51,13 +51,13 @@ const useMutation = <T, R>(
     Error,
     { variables: T }
   >(({ variables }) => MutationFn(variables), {
-    onSuccess: () => {
+    onSuccess: (result) => {
       if (queryKeyMap.get(MutationFn)) {
         queryClient.refetchQueries(queryKeyMap.get(MutationFn), {
           exact: false,
         });
       }
-      options?.onCompleted?.();
+      options?.onCompleted?.(result);
     },
     onError: options?.onError,
   });

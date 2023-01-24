@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 const isDev = process.env.NODE_ENV !== 'production';
 export const httpClient = (() => {
   const instance = axios.create({
-    baseURL: isDev ? 'http://localhost:3000' : process.env.REACT_APP_HOST_NAME,
+    baseURL: isDev ? 'http://localhost:4000' : process.env.REACT_APP_HOST_NAME,
   });
 
   instance.interceptors.response.use(
@@ -14,8 +14,8 @@ export const httpClient = (() => {
         config,
       } = err;
 
-      if (data.errorMessage !== 'No todo') {
-        return Promise.reject(data.errorMessage);
+      if (data.data.errorMessage !== 'No todo') {
+        return Promise.reject(data.data.errorMessage);
       }
       await instance.post(config.url);
       return instance(config);
