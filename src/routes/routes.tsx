@@ -1,14 +1,9 @@
 import { BrowserRouter, Route, Routes, Outlet } from 'react-router-dom';
-import { PublicLayout } from '../components';
 import { LOGIN_PATH, MAIN_PATH } from './const';
 import { LoginScreen } from '../screens';
 
 function PublicRoute() {
-  return (
-    <PublicLayout>
-      <Outlet />
-    </PublicLayout>
-  );
+  return <Outlet />;
 }
 
 function AppRouter() {
