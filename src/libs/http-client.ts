@@ -8,17 +8,13 @@ export const httpClient = (() => {
 
   instance.interceptors.response.use(
     (res) => res,
-    async (err) => {
-      const {
-        response: { data },
-        config,
-      } = err;
-
-      if (data.data.errorMessage !== 'No todo') {
-        return Promise.reject(data.data.errorMessage);
+    (err) => {
+      if (err?.response?.data?.errorMessage) {
+        // TODO: 나중에 빌드 한번하면 삭제
+        // eslint-disable-next-line
+        err.message = err.response.data.errorMessage || err.message;
       }
-      await instance.post(config.url);
-      return instance(config);
+      return Promise.reject(err);
     },
   );
 
