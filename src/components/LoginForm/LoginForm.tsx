@@ -8,15 +8,15 @@ import {
   Stack,
   TextField,
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useMutation } from '../../libs/react-query';
-import { userRepository } from '../../repositories/uesr.repository';
+import { useSignIn } from '../../libs/auth';
+import { MAIN_PATH } from '../../routes/const';
 
 const loginSchema = yup.object({
   account: yup.string().required(),
@@ -26,17 +26,13 @@ function LoginForm() {
   // 1. destructure props
   // 2. lib hooks
   const navigation = useNavigate();
+  const [userLogin] = useSignIn();
 
   // 3. state hooks
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
   // 4. query hooks
-  const [loginUser] = useMutation(userRepository.login, {
-    onError: (error: any) => {
-      setErrorMessage(error);
-    },
-  });
   // 5. form hooks
   const {
     register,
@@ -53,6 +49,12 @@ function LoginForm() {
 
   // 6. calculate values
   // 7. effect hooks
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      navigation(MAIN_PATH);
+    }
+  }, []);
+
   // 8. handlers
   return (
     <Box
@@ -98,15 +100,12 @@ function LoginForm() {
         <Button
           disabled={!isValid}
           onClick={handleSubmit(async ({ account, password }) => {
-            setErrorMessage('');
-            const { token } = await loginUser({
+            await userLogin({
               variables: { account, password },
+              onError: (err: Error) => {
+                setErrorMessage(err.message);
+              },
             });
-
-            if (token) {
-              localStorage.setItem('token', token);
-              navigation('/');
-            }
           })}
           sx={{
             backgroundColor: isValid ? '#8bc34a' : '#aed581',
