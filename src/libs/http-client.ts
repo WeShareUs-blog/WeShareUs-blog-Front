@@ -2,8 +2,12 @@ import axios, { AxiosRequestConfig } from 'axios';
 
 const isDev = process.env.NODE_ENV !== 'production';
 export const httpClient = (() => {
+  const token = localStorage.getItem('token');
   const instance = axios.create({
     baseURL: isDev ? 'http://localhost:4000' : process.env.REACT_APP_HOST_NAME,
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
   });
 
   instance.interceptors.response.use(
@@ -24,7 +28,7 @@ export const httpClient = (() => {
       return response.data.data as T;
     },
 
-    async get<T>(url: string, config?: AxiosRequestConfig) {
+    async get<T>(url: string, config?: { params?: any }) {
       const response = await instance.get(url, config);
       return response.data.data as T;
     },
