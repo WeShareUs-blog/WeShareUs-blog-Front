@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { Box, Button, InputLabel, Stack, TextField } from '@mui/material';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { userRepository } from '../../repositories/uesr.repository';
+import { useSignup } from '../../libs/auth';
 
 const signupSchema = yup
   .object({
@@ -14,6 +14,8 @@ const signupSchema = yup
 function SignupForm() {
   // 1. destructure props
   // 2. lib hooks
+  const [signupUser] = useSignup();
+
   // 3. state hooks
   // 4. query hooks
   // 5. form hooks
@@ -55,7 +57,12 @@ function SignupForm() {
       <Button
         onClick={handleSubmit(
           async ({ account, password, confirmPassword }) => {
-            await userRepository.signup({ account, password, confirmPassword });
+            await signupUser({
+              variables: { account, password, confirmPassword },
+              onError: (err) => {
+                console.log(err);
+              },
+            });
           },
         )}
       >

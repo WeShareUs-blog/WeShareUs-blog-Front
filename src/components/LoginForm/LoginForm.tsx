@@ -108,8 +108,8 @@ function LoginForm() {
             });
           })}
           sx={{
-            backgroundColor: isValid ? '#8bc34a' : '#aed581',
-            '&:hover': { backgroundColor: '#8bc34a' },
+            backgroundColor: isValid ? '#C99DCA' : '#807097',
+            '&:hover': { backgroundColor: '#C99DCA' },
           }}
         >
           Login
