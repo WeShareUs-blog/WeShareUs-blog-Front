@@ -11,15 +11,12 @@ function TodoScreen() {
   // 2. lib hooks
 
   // 3. state hooks
-  const [publishedDate, setPublishedDate] = useState(today());
+  const [publishedDate] = useState(today());
 
   // 4. query hooks
-  const { data: todo, loading: isTodoLoading } = useQuery(
-    todoRepository.retrieve,
-    {
-      variables: { publishedDate },
-    },
-  );
+  const { data: todo } = useQuery(todoRepository.retrieve, {
+    variables: { publishedDate },
+  });
 
   // 5. form hooks
   // 6. calculate values
