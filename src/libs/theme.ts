@@ -4,6 +4,9 @@ const theme = createTheme({
   components: {
     MuiOutlinedInput: {
       styleOverrides: {
+        root: {
+          paddingLeft: '8px',
+        },
         input: {
           padding: '8px 12px',
           backgroundColor: '#FFF',
@@ -50,6 +53,13 @@ const theme = createTheme({
             borderWidth: '2px',
             borderTop: 'thin solid rgba(255, 255, 255)',
           },
+        },
+      },
+    },
+    MuiInputAdornment: {
+      styleOverrides: {
+        root: {
+          marginRight: '4px',
         },
       },
     },
