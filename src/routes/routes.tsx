@@ -5,7 +5,7 @@ import {
   Outlet,
   Navigate,
 } from 'react-router-dom';
-import { LOGIN_PATH, MAIN_PATH } from './const';
+import { LOGIN_PATH } from './const';
 import { LoginScreen, TodoScreen } from '../screens';
 
 function PublicRoute() {
@@ -22,11 +22,10 @@ function AppRouter() {
     <BrowserRouter>
       <Routes>
         <Route element={<PublicRoute />}>
-          <Route path={LOGIN_PATH} element={<LoginScreen />} />
-          <Route path={MAIN_PATH} element={<div>main</div>} />
-        </Route>
-        <Route element={<PrivateRoute />}>
-          <Route path="todos" element={<TodoScreen />} />
+          <Route path="/login" element={<LoginScreen />} />
+          <Route path="/:user/*" element={<PrivateRoute />}>
+            <Route path="todo" element={<TodoScreen />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
