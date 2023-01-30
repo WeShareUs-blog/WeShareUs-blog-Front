@@ -1,9 +1,20 @@
-import { BrowserRouter, Route, Routes, Outlet } from 'react-router-dom';
-import { LOGIN_PATH, MAIN_PATH } from './const';
-import { LoginScreen } from '../screens';
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  Outlet,
+  Navigate,
+} from 'react-router-dom';
+import { LOGIN_PATH } from './const';
+import { LoginScreen, TodoScreen } from '../screens';
 
 function PublicRoute() {
   return <Outlet />;
+}
+
+function PrivateRoute() {
+  const auth = localStorage.getItem('token');
+  return auth ? <Outlet /> : <Navigate to={LOGIN_PATH} />;
 }
 
 function AppRouter() {
@@ -11,8 +22,10 @@ function AppRouter() {
     <BrowserRouter>
       <Routes>
         <Route element={<PublicRoute />}>
-          <Route path={LOGIN_PATH} element={<LoginScreen />} />
-          <Route path={MAIN_PATH} element={<div>main</div>} />
+          <Route path="/login" element={<LoginScreen />} />
+          <Route path="/:user/*" element={<PrivateRoute />}>
+            <Route path="todo" element={<TodoScreen />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
