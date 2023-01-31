@@ -6,7 +6,7 @@ import {
   Navigate,
 } from 'react-router-dom';
 import { LOGIN_PATH } from './const';
-import { LoginScreen, TodoScreen } from '../screens';
+import { LoginScreen, SignupScreen, TodoScreen } from '../screens';
 
 function PublicRoute() {
   return <Outlet />;
@@ -23,6 +23,7 @@ function AppRouter() {
       <Routes>
         <Route element={<PublicRoute />}>
           <Route path="/login" element={<LoginScreen />} />
+          <Route path="/signup" element={<SignupScreen />} />
           <Route path="/:user/*" element={<PrivateRoute />}>
             <Route path="todo" element={<TodoScreen />} />
           </Route>

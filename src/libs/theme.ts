@@ -23,12 +23,15 @@ const theme = createTheme({
     MuiButton: {
       defaultProps: {
         disableRipple: true,
+        disableElevation: true,
+        variant: 'contained',
+        color: 'primary',
       },
       styleOverrides: {
         root: {
           color: '#000',
           '&:hover': {
-            backgroundColor: 'inherit',
+            backgroundColor: 'primary',
           },
         },
       },
@@ -50,6 +53,13 @@ const theme = createTheme({
             borderWidth: '2px',
             borderTop: 'thin solid rgba(255, 255, 255)',
           },
+        },
+      },
+    },
+    MuiInputAdornment: {
+      styleOverrides: {
+        root: {
+          marginRight: '4px',
         },
       },
     },

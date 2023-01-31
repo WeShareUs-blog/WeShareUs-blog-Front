@@ -37,3 +37,31 @@ export const useSignIn: () => [
     { loading },
   ];
 };
+
+export const useSignup: () => [
+  ({
+    variables,
+    onError,
+  }: {
+    variables: { account: string; password: string; confirmPassword: string };
+    onError: (err: Error) => void;
+  }) => void,
+] = () => {
+  const [loading, setLoading] = useState(false);
+
+  return [
+    ({
+      variables,
+      onError,
+    }: {
+      variables: { account: string; password: string; confirmPassword: string };
+      onError: (err: Error) => void;
+    }) => {
+      setLoading(true);
+      httpClient
+        .post('/users/signup', variables)
+        .catch((err) => onError(err))
+        .finally(() => setLoading(false));
+    },
+  ];
+};

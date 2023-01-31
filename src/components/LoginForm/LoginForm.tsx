@@ -4,17 +4,19 @@ import {
   FormHelperText,
   IconButton,
   InputAdornment,
-  InputLabel,
   Stack,
   TextField,
+  Typography,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LockIcon from '@mui/icons-material/Lock';
 import { useSignIn } from '../../libs/auth';
 import { MAIN_PATH } from '../../routes/const';
 
@@ -66,18 +68,33 @@ function LoginForm() {
     >
       <Stack spacing="24px">
         <div>
-          <InputLabel>Account</InputLabel>
-          <TextField {...register('account')} fullWidth />
+          <TextField
+            {...register('account')}
+            fullWidth
+            placeholder="아이디"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <AccountCircleIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
         </div>
         <div>
-          <InputLabel>Password</InputLabel>
           <TextField
             {...register('password')}
             fullWidth
             variant="outlined"
+            placeholder="비밀번호"
             type={isShowPassword ? 'text' : 'password'}
             error={!!errorMessage || !!errors.password}
             InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <LockIcon />
+                </InputAdornment>
+              ),
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
@@ -108,13 +125,23 @@ function LoginForm() {
             });
           })}
           sx={{
-            backgroundColor: isValid ? '#8bc34a' : '#aed581',
-            '&:hover': { backgroundColor: '#8bc34a' },
+            backgroundColor: isValid ? '#C99DCA' : '#807097',
+            '&:hover': { backgroundColor: '#C99DCA' },
           }}
         >
-          Login
+          <Typography sx={{ fontWeight: 500 }}>로그인</Typography>
         </Button>
       </Stack>
+      <FormHelperText sx={{ marginTop: '12px' }}>
+        처음이신가요?{' '}
+        <Link
+          to="/signup"
+          style={{ textDecorationLine: 'none', color: 'blue' }}
+        >
+          회원가입
+        </Link>
+        을 진행해주세요.
+      </FormHelperText>
     </Box>
   );
 }
