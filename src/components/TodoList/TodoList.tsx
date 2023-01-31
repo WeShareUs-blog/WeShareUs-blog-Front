@@ -140,7 +140,7 @@ function TodoList(props: { todo: Todo }) {
               return;
             }
             if (event.key === 'Enter' && content) {
-              // handleAppend({ content, done: false });
+              handleAppend({ content, done: false });
             }
           }}
           onChange={(e) => {
