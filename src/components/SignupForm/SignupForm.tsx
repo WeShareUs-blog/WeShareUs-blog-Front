@@ -3,8 +3,6 @@ import { Box, Button, InputLabel, Stack, TextField } from '@mui/material';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useSignup } from '../../libs/auth';
-import { useMutation } from '../../libs/react-query';
-import { userRepository } from '../../repositories/uesr.repository';
 
 const signupSchema = yup
   .object({
