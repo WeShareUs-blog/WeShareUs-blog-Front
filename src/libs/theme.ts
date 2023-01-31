@@ -4,9 +4,6 @@ const theme = createTheme({
   components: {
     MuiOutlinedInput: {
       styleOverrides: {
-        root: {
-          paddingLeft: '8px',
-        },
         input: {
           padding: '8px 12px',
           backgroundColor: '#FFF',
@@ -26,12 +23,15 @@ const theme = createTheme({
     MuiButton: {
       defaultProps: {
         disableRipple: true,
+        disableElevation: true,
+        variant: 'contained',
+        color: 'primary',
       },
       styleOverrides: {
         root: {
           color: '#000',
           '&:hover': {
-            backgroundColor: 'inherit',
+            backgroundColor: 'primary',
           },
         },
       },

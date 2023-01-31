@@ -1,5 +1,4 @@
 import { httpClient } from '../libs/http-client';
-import { queryKeyMap } from '../libs/react-query';
 
 const userRepository = {
   async signup({

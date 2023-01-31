@@ -3,6 +3,8 @@ import { Box, Button, InputLabel, Stack, TextField } from '@mui/material';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useSignup } from '../../libs/auth';
+import { useMutation } from '../../libs/react-query';
+import { userRepository } from '../../repositories/uesr.repository';
 
 const signupSchema = yup
   .object({
@@ -40,14 +42,19 @@ function SignupForm() {
       <Stack spacing="16px">
         <div>
           <InputLabel>계정</InputLabel>
-          <TextField {...register('account')} fullWidth />
+          <Stack direction="row" sx={{ alignItems: 'center' }}>
+            <TextField {...register('account')} sx={{ width: '65%' }} />
+            <Button sx={{ height: '32px', marginLeft: '8px' }}>
+              중복 확인
+            </Button>
+          </Stack>
         </div>
         <div>
           <InputLabel>비밀번호</InputLabel>
           <TextField type="password" {...register('password')} fullWidth />
         </div>
         <div>
-          <InputLabel>재확인 비밀번호</InputLabel>
+          <InputLabel>비밀번호 재확인</InputLabel>
           <TextField
             type="password"
             {...register('confirmPassword')}
