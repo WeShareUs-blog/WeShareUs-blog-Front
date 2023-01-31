@@ -47,7 +47,7 @@ export const useSignup: () => [
     onError: (err: Error) => void;
   }) => void,
 ] = () => {
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
 
   return [
     ({
