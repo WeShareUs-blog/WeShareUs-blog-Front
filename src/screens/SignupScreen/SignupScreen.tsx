@@ -13,6 +13,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
 import { useState } from 'react';
 import { Layout } from '../../components';
+import { userRepository } from '../../repositories/user.repository';
+import { useMutation } from '../../libs/react-query';
 
 const signupSchema = yup
   .object({
@@ -25,11 +27,26 @@ function SignupScreen() {
   // 1. destructure props
   // 2. lib hooks
   // 3. state hooks
+  const [isValidAccount, setIsValidAccount] = useState(false);
+  const [accountErrorMessage, setAccountErrorMessage] = useState('');
   const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
 
   // 4. query hooks
+  const [checkAccount, { loading: isCheckAccount }] = useMutation(
+    userRepository.checkAccount,
+    {
+      onCompleted: () => {
+        setAccountErrorMessage('');
+        setIsValidAccount(true);
+      },
+      onError: (err) => setAccountErrorMessage(err.message),
+    },
+  );
+
+  // 5. form hooks
   const {
     formState: { errors, isValid },
+    getValues,
     register,
     handleSubmit,
   } = useForm({
@@ -42,7 +59,6 @@ function SignupScreen() {
     resolver: yupResolver(signupSchema),
   });
 
-  // 5. form hooks
   // 6. calculate values
   // 7. effect hooks
   // 8. handlers
@@ -51,13 +67,17 @@ function SignupScreen() {
       <Box
         sx={{ backgroundColor: '#FFF', padding: '24px', borderRadius: '12px' }}
       >
-        <Stack spacing={4}>
+        <Stack>
           <Stack
             direction="row"
             sx={{ alignItems: 'center', justifyContent: 'space-between' }}
           >
             <TextField
               {...register('account')}
+              onChange={() => {
+                setIsValidAccount(false);
+                setAccountErrorMessage('');
+              }}
               placeholder="아이디"
               error={!!errors.account}
               sx={{ width: '75%' }}
@@ -69,7 +89,14 @@ function SignupScreen() {
                 ),
               }}
             />
+
             <LoadingButton
+              loading={isCheckAccount}
+              onClick={async () => {
+                await checkAccount({
+                  variables: { account: getValues('account') },
+                });
+              }}
               sx={{
                 height: '36px',
                 backgroundColor: '#dbe5ff',
@@ -79,27 +106,18 @@ function SignupScreen() {
               중복확인
             </LoadingButton>
           </Stack>
-          <TextField
-            {...register('password')}
-            type="password"
-            placeholder="비밀번호"
-            fullWidth
-            error={!!errors.password}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <LockIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
-          <div>
+          {accountErrorMessage && (
+            <FormHelperText sx={{ marginLeft: '4px', color: 'red' }}>
+              {accountErrorMessage}
+            </FormHelperText>
+          )}
+          <Stack spacing={4} sx={{ marginTop: '16px' }}>
             <TextField
-              {...register('confirmPassword')}
+              {...register('password')}
               type="password"
-              placeholder="비밀번호 재확인"
-              error={!!errors.confirmPassword}
+              placeholder="비밀번호"
               fullWidth
+              error={!!errors.password}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -108,28 +126,45 @@ function SignupScreen() {
                 ),
               }}
             />
-            {passwordErrorMessage && (
-              <FormHelperText sx={{ marginLeft: '4px', color: 'red' }}>
-                {passwordErrorMessage}
-              </FormHelperText>
-            )}
-          </div>
-          <LoadingButton
-            disabled={!isValid}
-            onClick={handleSubmit(
-              async ({ account, password, confirmPassword }) => {
-                if (password !== confirmPassword) {
-                  setPasswordErrorMessage('비밀번호와 일치하지 않습니다.');
-                }
-              },
-            )}
-            sx={{
-              backgroundColor: isValid ? '#C99DCA' : '#E2C0E3',
-              '&:hover': { backgroundColor: '#C99DCA' },
-            }}
-          >
-            회원가입하기
-          </LoadingButton>
+            <div>
+              <TextField
+                {...register('confirmPassword')}
+                type="password"
+                placeholder="비밀번호 재확인"
+                error={!!errors.confirmPassword}
+                fullWidth
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LockIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              {passwordErrorMessage && (
+                <FormHelperText sx={{ marginLeft: '4px', color: 'red' }}>
+                  {passwordErrorMessage}
+                </FormHelperText>
+              )}
+            </div>
+            <LoadingButton
+              disabled={!isValid || !isValidAccount}
+              onClick={handleSubmit(
+                async ({ account, password, confirmPassword }) => {
+                  if (password !== confirmPassword) {
+                    setPasswordErrorMessage('비밀번호와 일치하지 않습니다.');
+                  }
+                },
+              )}
+              sx={{
+                backgroundColor:
+                  !isValid || !isValidAccount ? '#C99DCA' : '#E2C0E3',
+                '&:hover': { backgroundColor: '#E2C0E3' },
+              }}
+            >
+              회원가입하기
+            </LoadingButton>
+          </Stack>
         </Stack>
       </Box>
     </Layout>
