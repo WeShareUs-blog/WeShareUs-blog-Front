@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { httpClient } from './http-client';
-import { MAIN_PATH } from '../routes/const';
 
-export const useSignIn: () => [
+export const useLogin: () => [
   ({
     variables,
     onError,
@@ -26,42 +25,15 @@ export const useSignIn: () => [
     }) => {
       setLoading(true);
       httpClient
-        .post<{ token: string }>('/users/login', variables)
-        .then(({ token }) => {
+        .post<{ token: string; account: string }>('/users/login', variables)
+        .then(({ token, account }) => {
           localStorage.setItem('token', token);
-          navigation(MAIN_PATH);
+          localStorage.setItem('account', account);
+          navigation(`/${account}`);
         })
         .catch((err) => onError(err))
         .finally(() => setLoading(false));
     },
     { loading },
-  ];
-};
-
-export const useSignup: () => [
-  ({
-    variables,
-    onError,
-  }: {
-    variables: { account: string; password: string; confirmPassword: string };
-    onError: (err: Error) => void;
-  }) => void,
-] = () => {
-  const [, setLoading] = useState(false);
-
-  return [
-    ({
-      variables,
-      onError,
-    }: {
-      variables: { account: string; password: string; confirmPassword: string };
-      onError: (err: Error) => void;
-    }) => {
-      setLoading(true);
-      httpClient
-        .post('/users/signup', variables)
-        .catch((err) => onError(err))
-        .finally(() => setLoading(false));
-    },
   ];
 };

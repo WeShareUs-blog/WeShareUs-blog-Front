@@ -1,7 +1,11 @@
 import { httpClient } from '../libs/http-client';
 
 const userRepository = {
-  async signup({
+  async checkAccount({ account }: { account: string }) {
+    return httpClient.post('/users/signup/check', { account });
+  },
+
+  async register({
     account,
     password,
     confirmPassword,

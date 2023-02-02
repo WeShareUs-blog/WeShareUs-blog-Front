@@ -1,9 +1,9 @@
 import { Stack } from '@mui/material';
 import { ReactNode } from 'react';
 
-function Layout(props: { children: ReactNode; maxWidth?: string }) {
+function Layout(props: { width: string; children: ReactNode }) {
   // 1. destructure props
-  const { children, maxWidth = '50%' } = props;
+  const { width, children } = props;
 
   // 2. lib hooks
   // 3. state hooks
@@ -13,14 +13,7 @@ function Layout(props: { children: ReactNode; maxWidth?: string }) {
   // 7. effect hooks
   // 8. handlers
   return (
-    <Stack
-      sx={{
-        maxWidth,
-        margin: '0 auto',
-        borderRadius: '12px',
-        padding: '128px 0',
-      }}
-    >
+    <Stack sx={{ width, margin: '0 auto', padding: ' 144px 16px' }}>
       {children}
     </Stack>
   );
