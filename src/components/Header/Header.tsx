@@ -1,4 +1,4 @@
-import { AppBar, Box, Stack, Toolbar, Typography } from '@mui/material';
+import { AppBar, Stack, Toolbar, Typography } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { LinkButton } from '../LinkButton';
 

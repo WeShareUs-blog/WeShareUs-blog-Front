@@ -34,6 +34,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "lint": "eslint ./src",
+    "lint:fix": "eslint --fix ./src",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public"
@@ -43,6 +45,9 @@
       "react-app",
       "react-app/jest"
     ],
+    "rules": {
+      "no-unused-vars": "warn"
+    },
     "overrides": [
       {
         "files": [
