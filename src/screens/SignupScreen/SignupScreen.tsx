@@ -12,6 +12,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Layout } from '../../components';
 import { userRepository } from '../../repositories/user.repository';
 import { useMutation } from '../../libs/react-query';
@@ -26,6 +27,8 @@ const signupSchema = yup
 function SignupScreen() {
   // 1. destructure props
   // 2. lib hooks
+  const navigation = useNavigate();
+
   // 3. state hooks
   const [isValidAccount, setIsValidAccount] = useState(false);
   const [accountErrorMessage, setAccountErrorMessage] = useState('');
@@ -36,10 +39,18 @@ function SignupScreen() {
     userRepository.checkAccount,
     {
       onCompleted: () => {
-        setAccountErrorMessage('');
+        setAccountErrorMessage('사용 가능한 계정입니다.');
         setIsValidAccount(true);
       },
       onError: (err) => setAccountErrorMessage(err.message),
+    },
+  );
+  const [registerAccount, { loading: isRegisteringAccount }] = useMutation(
+    userRepository.register,
+    {
+      onCompleted: () => {
+        navigation('/login');
+      },
     },
   );
 
@@ -107,7 +118,9 @@ function SignupScreen() {
             </LoadingButton>
           </Stack>
           {accountErrorMessage && (
-            <FormHelperText sx={{ marginLeft: '4px', color: 'red' }}>
+            <FormHelperText
+              sx={{ marginLeft: '4px', color: isValidAccount ? 'blue' : 'red' }}
+            >
               {accountErrorMessage}
             </FormHelperText>
           )}
@@ -148,12 +161,22 @@ function SignupScreen() {
               )}
             </div>
             <LoadingButton
+              loading={isRegisteringAccount}
               disabled={!isValid || !isValidAccount}
               onClick={handleSubmit(
                 async ({ account, password, confirmPassword }) => {
+                  if (!isValidAccount) {
+                    setAccountErrorMessage('중복 확인을 해주세요.');
+                    return;
+                  }
                   if (password !== confirmPassword) {
                     setPasswordErrorMessage('비밀번호와 일치하지 않습니다.');
+                    return;
                   }
+
+                  await registerAccount({
+                    variables: { account, password, confirmPassword },
+                  });
                 },
               )}
               sx={{
