@@ -5,7 +5,7 @@ import {
   Route,
   Routes,
 } from 'react-router-dom';
-import { LoginScreen, SignupScreen } from '../screens';
+import { LoginScreen, SignupScreen, TodoScreen } from '../screens';
 import { Header } from '../components';
 
 function PrivateRoute() {
@@ -28,7 +28,7 @@ function AppRouter() {
         <Route path="/login" element={<LoginScreen />} />
         <Route path="/signup" element={<SignupScreen />} />
         <Route path="/:user/*" element={<PrivateRoute />}>
-          <Route path="todo" element={<div>todo</div>} />
+          <Route path="todo" element={<TodoScreen />} />
         </Route>
       </Routes>
     </BrowserRouter>

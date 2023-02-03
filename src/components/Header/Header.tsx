@@ -1,6 +1,7 @@
 import { AppBar, Stack, Toolbar, Typography } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { LinkButton } from '../LinkButton';
+import { today } from '../../libs/dayjs';
 
 function Header() {
   // 1. destructure props
@@ -29,7 +30,9 @@ function Header() {
             <Typography variant="h4">We Share US</Typography>
             <Stack direction="row" spacing={4}>
               <LinkButton to="./post">게시글</LinkButton>
-              <LinkButton to="./todo">나의 할일</LinkButton>
+              <LinkButton to={`./todo?publishedDate=${today()}`}>
+                나의 할일
+              </LinkButton>
             </Stack>
           </Stack>
           <AccountCircleIcon />

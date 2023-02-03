@@ -36,6 +36,21 @@ const theme = createTheme({
         },
       },
     },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          borderWidth: '2px',
+          '&::before': {
+            borderWidth: '2px',
+            borderTop: 'thin solid rgba(255, 255, 255)',
+          },
+          '&::after': {
+            borderWidth: '2px',
+            borderTop: 'thin solid rgba(255, 255, 255)',
+          },
+        },
+      },
+    },
   },
   spacing: 4,
 });
