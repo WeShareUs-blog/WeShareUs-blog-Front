@@ -23,5 +23,9 @@ export const httpClient = (() => {
       const response = await instance.post<{ data: T }>(url, data);
       return response.data.data;
     },
+    async patch<T>(url: string, data?: any) {
+      const response = await instance.patch<{ data: T }>(url, data);
+      return response.data.data;
+    },
   };
 })();

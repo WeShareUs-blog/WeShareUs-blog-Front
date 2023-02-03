@@ -40,7 +40,7 @@ function CalendarDatePicker(props: {
         InputProps={{ sx: { backgroundColor: '#FFF' } }}
         value={calendarDate}
         renderInput={(params) => (
-          <TextField {...params} sx={{ width: '50%' }} />
+          <TextField {...params} sx={{ width: '40%' }} />
         )}
         inputFormat="YYYY-MM-DD"
       />

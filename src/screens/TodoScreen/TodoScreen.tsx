@@ -1,6 +1,7 @@
 import { Typography, Stack, Divider, Chip } from '@mui/material';
 import { useState } from 'react';
-import { CalendarDatePicker, Layout } from '../../components';
+import { useSearchParams } from 'react-router-dom';
+import { CalendarDatePicker, Layout, TodoList } from '../../components';
 import { today } from '../../libs/dayjs';
 import { useQuery } from '../../libs/react-query';
 import { todoRepository } from '../../repositories/todo.repository';
@@ -8,15 +9,16 @@ import { todoRepository } from '../../repositories/todo.repository';
 function TodoScreen() {
   // 1. destructure props
   // 2. lib hooks
+  const [searchParams, setSearchParams] = useSearchParams();
 
   // 3. state hooks
   const [publishedDate, setPublishedDate] = useState(today());
 
   // 4. query hooks
-  const { data: todo, loading } = useQuery(todoRepository.retrieve, {
+  const { data: todo } = useQuery(todoRepository.retrieve, {
     variables: { publishedDate },
   });
-  console.log(todo);
+
   // 5. form hooks
   // 6. calculate values
   // 7. effect hooks
@@ -32,25 +34,30 @@ function TodoScreen() {
           padding: '24px 16px',
         }}
       >
-        <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#FFF' }}>
-          Todo List
-        </Typography>
-        <CalendarDatePicker
-          onChange={(date) => {
-            setPublishedDate(date);
-          }}
-          publishedDate={publishedDate}
-        />
-        <Divider sx={{ width: '90%' }}>
-          <Chip
-            label={
-              <Typography
-                sx={{ color: '#FFF' }}
-              >{`오늘의 할일(${0})`}</Typography>
-            }
-            sx={{ backgroundColor: '#000' }}
+        <Stack spacing={2} sx={{ width: '100%', alignItems: 'center' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#FFF' }}>
+            Todo List
+          </Typography>
+          <CalendarDatePicker
+            onChange={(date) => {
+              setPublishedDate(date);
+              searchParams.set('publishedDate', date);
+              setSearchParams(searchParams);
+            }}
+            publishedDate={publishedDate}
           />
-        </Divider>
+          <Divider sx={{ width: '90%' }}>
+            <Chip
+              label={
+                <Typography sx={{ color: '#FFF' }}>{`오늘의 할일(${
+                  todo?.todoItems.length || 0
+                })`}</Typography>
+              }
+              sx={{ backgroundColor: '#000' }}
+            />
+          </Divider>
+        </Stack>
+        {todo && <TodoList todo={todo} />}
       </Stack>
     </Layout>
   );
