@@ -1,7 +1,12 @@
 import { Typography, Stack, Divider, Chip } from '@mui/material';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { CalendarDatePicker, Layout, TodoList } from '../../components';
+import {
+  CalendarDatePicker,
+  Layout,
+  TodoList,
+  TodoListSkeleton,
+} from '../../components';
 import { today } from '../../libs/dayjs';
 import { useQuery } from '../../libs/react-query';
 import { todoRepository } from '../../repositories/todo.repository';
@@ -57,7 +62,7 @@ function TodoScreen() {
             />
           </Divider>
         </Stack>
-        {todo && <TodoList todo={todo} />}
+        {todo ? <TodoList todo={todo} /> : <TodoListSkeleton />}
       </Stack>
     </Layout>
   );
