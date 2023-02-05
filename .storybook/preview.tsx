@@ -31,7 +31,7 @@ export const decorators = [
   (storyFn: any) =>
     <ReactQueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
-        <div style={{ margin: '0 auto', width: '50%'}}>{storyFn()}</div>
+        <div style={{ margin: '0 auto'}}>{storyFn()}</div>
       </ThemeProvider>
     </ReactQueryClientProvider>
   ,
