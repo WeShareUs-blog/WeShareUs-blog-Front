@@ -1,6 +1,7 @@
 import {queryClient, ReactQueryClientProvider} from '../src/libs/react-query';
 import { theme, ThemeProvider} from '../src/libs/theme';
 import { initialize, mswDecorator } from 'msw-storybook-addon';
+import { withRouter } from 'storybook-addon-react-router-v6';
 
 initialize({
   onUnhandledRequest: ({ method, url }) => {
@@ -26,6 +27,7 @@ export const parameters = {
 }
 
 export const decorators = [
+  withRouter,
   (storyFn: any) =>
     <ReactQueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
