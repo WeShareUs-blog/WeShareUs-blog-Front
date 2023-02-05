@@ -49,11 +49,12 @@ export const FailLogin: StoryObj<ArgsTypes> = {
       name: '로그인하기',
     });
 
-    // NOTE: 버튼을 누를 때까지 계속 누른다...
-    await waitFor(() => userEvent.click(loginButton));
-    const errorMessageText = await canvas.findByText(
-      '아이디 또는 비밀번호가 틀렸습니다.',
-    );
-    await expect(errorMessageText).toBeInTheDocument();
+    await waitFor(async () => {
+      await userEvent.click(loginButton);
+      const errorMessageText = await canvas.findByText(
+        '아이디 또는 비밀번호가 틀렸습니다.',
+      );
+      expect(errorMessageText).toBeInTheDocument();
+    });
   },
 };
