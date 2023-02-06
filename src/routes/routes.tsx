@@ -7,17 +7,20 @@ import {
 } from 'react-router-dom';
 import { LoginScreen, SignupScreen, TodoScreen } from '../screens';
 import { Header } from '../components';
+import { getStorage } from '../libs/storage';
+import { LOGIN_PATH, SIGNUP_PATH } from './const';
 
 function PrivateRoute() {
-  const auth = localStorage.getItem('token');
+  const auth = getStorage('token', 'local');
+  const account = getStorage('account', 'local');
 
-  return auth ? (
+  return auth && account ? (
     <>
-      <Header />
+      <Header account={account} />
       <Outlet />
     </>
   ) : (
-    <Navigate to="/login" />
+    <Navigate to={LOGIN_PATH} />
   );
 }
 
@@ -25,8 +28,8 @@ function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<LoginScreen />} />
-        <Route path="/signup" element={<SignupScreen />} />
+        <Route path={LOGIN_PATH} element={<LoginScreen />} />
+        <Route path={SIGNUP_PATH} element={<SignupScreen />} />
         <Route path="/:user/*" element={<PrivateRoute />}>
           <Route path="todo" element={<TodoScreen />} />
         </Route>
