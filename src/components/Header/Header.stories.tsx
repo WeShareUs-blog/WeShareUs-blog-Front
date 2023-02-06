@@ -7,6 +7,9 @@ type ArgsTypes = ComponentProps<typeof Header>;
 export default {
   title: 'components/Header',
   component: Header,
+  args: {
+    account: 'TestID',
+  },
 } as Meta<ArgsTypes>;
 
 export const Default: StoryObj<ArgsTypes> = {};

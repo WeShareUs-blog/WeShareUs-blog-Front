@@ -18,6 +18,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Layout } from '../../components';
 import { useLogin } from '../../libs/auth';
+import { SIGNUP_PATH } from '../../routes/const';
 
 const loginSchema = yup.object({
   account: yup.string().required(),
@@ -128,7 +129,7 @@ function LoginScreen() {
         <FormHelperText>
           처음이신가요?{' '}
           <Link
-            to="/signup"
+            to={SIGNUP_PATH}
             style={{ textDecorationLine: 'none', color: 'blue' }}
           >
             회원가입

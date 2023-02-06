@@ -13,8 +13,10 @@ import { useNavigate } from 'react-router-dom';
 import { LinkButton } from '../LinkButton';
 import { today } from '../../libs/dayjs';
 
-function Header() {
+function Header(props: { account: string }) {
   // 1. destructure props
+  const { account } = props;
+
   // 2. lib hooks
   const navigation = useNavigate();
 
@@ -51,30 +53,33 @@ function Header() {
               </LinkButton>
             </Stack>
           </Stack>
-          <IconButton
-            id="profile-button"
-            onClick={(event) => setAnchorEl(event.currentTarget)}
-            aria-haspopup="true"
-            sx={{ color: '#FFF' }}
-          >
-            <AccountCircleIcon sx={{ width: '32px', height: '32px' }} />
-          </IconButton>
-          <Menu
-            aria-labelledby="profile-button"
-            open={open}
-            anchorEl={anchorEl}
-            onClose={() => setAnchorEl(null)}
-          >
-            <MenuItem
-              onClick={() => {
-                localStorage.clear();
-                navigation('/login');
-              }}
-              sx={{ fontSize: '14px', padding: '0 12px' }}
+          <Stack direction="row" sx={{ alignItems: 'center' }}>
+            <Typography>{account}</Typography>
+            <IconButton
+              id="profile-button"
+              onClick={(event) => setAnchorEl(event.currentTarget)}
+              aria-haspopup="true"
+              sx={{ color: '#FFF', marginLeft: '8px' }}
             >
-              로그아웃
-            </MenuItem>
-          </Menu>
+              <AccountCircleIcon sx={{ width: '32px', height: '32px' }} />
+            </IconButton>
+            <Menu
+              aria-labelledby="profile-button"
+              open={open}
+              anchorEl={anchorEl}
+              onClose={() => setAnchorEl(null)}
+            >
+              <MenuItem
+                onClick={() => {
+                  localStorage.clear();
+                  navigation('/login');
+                }}
+                sx={{ fontSize: '14px', padding: '0 12px' }}
+              >
+                로그아웃
+              </MenuItem>
+            </Menu>
+          </Stack>
         </Stack>
       </Toolbar>
     </AppBar>
