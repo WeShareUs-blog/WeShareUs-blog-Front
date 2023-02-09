@@ -7,15 +7,18 @@ const userRepository = {
 
   async register({
     account,
+    nickname,
     password,
     confirmPassword,
   }: {
     account: string;
+    nickname: string;
     password: string;
     confirmPassword: string;
   }) {
     return httpClient.post('/users/signup', {
       account,
+      nickname,
       password,
       confirmPassword,
     });

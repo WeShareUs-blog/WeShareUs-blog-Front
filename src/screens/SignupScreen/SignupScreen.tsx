@@ -20,6 +20,7 @@ import { useMutation } from '../../libs/react-query';
 const signupSchema = yup
   .object({
     account: yup.string().required(),
+    nickname: yup.string().required(),
     password: yup.string().required(),
     confirmPassword: yup.string().required(),
   })
@@ -64,6 +65,7 @@ function SignupScreen() {
     mode: 'onChange',
     defaultValues: {
       account: '',
+      nickname: '',
       password: '',
       confirmPassword: '',
     },
@@ -100,7 +102,6 @@ function SignupScreen() {
                 ),
               }}
             />
-
             <LoadingButton
               loading={isCheckAccount}
               onClick={async () => {
@@ -125,6 +126,11 @@ function SignupScreen() {
             </FormHelperText>
           )}
           <Stack spacing={4} sx={{ marginTop: '16px' }}>
+            <TextField
+              {...register('nickname')}
+              placeholder="닉네임"
+              error={!!errors.nickname}
+            />
             <TextField
               {...register('password')}
               type="password"
@@ -164,7 +170,7 @@ function SignupScreen() {
               loading={isRegisteringAccount}
               disabled={!isValid || !isValidAccount}
               onClick={handleSubmit(
-                async ({ account, password, confirmPassword }) => {
+                async ({ account, nickname, password, confirmPassword }) => {
                   if (!isValidAccount) {
                     setAccountErrorMessage('중복 확인을 해주세요.');
                     return;
@@ -175,7 +181,7 @@ function SignupScreen() {
                   }
 
                   await registerAccount({
-                    variables: { account, password, confirmPassword },
+                    variables: { account, nickname, password, confirmPassword },
                   });
                 },
               )}

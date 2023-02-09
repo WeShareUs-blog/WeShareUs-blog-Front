@@ -25,11 +25,11 @@ export const useLogin: () => [
     }) => {
       setLoading(true);
       httpClient
-        .post<{ token: string; account: string }>('/users/login', variables)
-        .then(({ token, account }) => {
+        .post<{ token: string; nickname: string }>('/users/login', variables)
+        .then(({ token, nickname }) => {
           localStorage.setItem('token', token);
-          localStorage.setItem('account', account);
-          navigation(`/${account}`);
+          localStorage.setItem('nickname', nickname);
+          navigation(`/${nickname}`);
         })
         .catch((err) => onError(err))
         .finally(() => setLoading(false));
@@ -61,14 +61,14 @@ export const useKakaoLogin: () => [
     }) => {
       setLoading(true);
       httpClient
-        .post<{ token: string; account: string }>(
+        .post<{ token: string; nickname: string }>(
           '/users/login/kakao',
           variables,
         )
-        .then(({ token, account }) => {
+        .then(({ token, nickname }) => {
           localStorage.setItem('token', token);
-          localStorage.setItem('account', account);
-          navigation(`/${account}`);
+          localStorage.setItem('account', nickname);
+          navigation(`/${nickname}`);
         })
         .catch((err) => onError(err))
         .finally(() => setLoading(false));

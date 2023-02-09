@@ -1,5 +1,4 @@
-import { Button, Link, Stack, Typography } from '@mui/material';
-import { Image } from '@mui/icons-material';
+import { Button, Link, Typography } from '@mui/material';
 import { KAKAO_LOGIN_PATH } from '../../routes/const';
 import KakaoIcon from '../../assets/kakao-icon.svg';
 
