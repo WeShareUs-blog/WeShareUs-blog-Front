@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useKakaoLogin } from '../../libs/auth';
 
@@ -9,6 +9,7 @@ function KakaoAuthScreen() {
   const [searchParams] = useSearchParams();
 
   // 3. state hooks
+  const [errorMessage, setErrorMessage] = useState('');
   // 4. query hooks
   // 5. form hooks
   // 6. calculate values
@@ -19,14 +20,14 @@ function KakaoAuthScreen() {
     if (code) {
       kakaoLogin({
         variables: { code },
-        onError: () => {
-          alert('이상하다');
+        onError: (err) => {
+          setErrorMessage(err.message);
         },
       });
     }
   }, []);
   // 8. handlers
-  return <div>kakao loading</div>;
+  return <div>{errorMessage}</div>;
 }
 
 export { KakaoAuthScreen };
