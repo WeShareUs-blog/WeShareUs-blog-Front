@@ -105,27 +105,29 @@ function LoginScreen() {
               </FormHelperText>
             )}
           </Stack>
-          <LoadingButton
-            size="medium"
-            loading={loading}
-            disabled={!isValid}
-            onClick={handleSubmit(async ({ account, password }) => {
-              setLoginErrorMessage('');
-              await loginUser({
-                variables: { account, password },
-                onError: (err) => {
-                  setLoginErrorMessage(err.message);
-                },
-              });
-            })}
-            sx={{
-              backgroundColor: isValid ? '#C99DCA' : '#E2C0E3',
-              '&:hover': { backgroundColor: '#C99DCA' },
-            }}
-          >
-            로그인하기
-          </LoadingButton>
-          <KakaoLoginButton />
+          <Stack spacing={2}>
+            <LoadingButton
+              size="medium"
+              loading={loading}
+              disabled={!isValid}
+              onClick={handleSubmit(async ({ account, password }) => {
+                setLoginErrorMessage('');
+                await loginUser({
+                  variables: { account, password },
+                  onError: (err) => {
+                    setLoginErrorMessage(err.message);
+                  },
+                });
+              })}
+              sx={{
+                backgroundColor: isValid ? '#C99DCA' : '#E2C0E3',
+                '&:hover': { backgroundColor: '#C99DCA' },
+              }}
+            >
+              로그인하기
+            </LoadingButton>
+            <KakaoLoginButton />
+          </Stack>
         </Stack>
         <FormHelperText>
           처음이신가요?{' '}

@@ -1,5 +1,7 @@
-import { Button, Link } from '@mui/material';
+import { Button, Link, Stack, Typography } from '@mui/material';
+import { Image } from '@mui/icons-material';
 import { KAKAO_LOGIN_PATH } from '../../routes/const';
+import KakaoIcon from '../../assets/kakao-icon.svg';
 
 function KakaoLoginButton() {
   // 1. destructure props
@@ -11,8 +13,16 @@ function KakaoLoginButton() {
   // 7. effect hooks
   // 8. handlers
   return (
-    <Button component={Link} href={KAKAO_LOGIN_PATH}>
-      카카오로 로그인하기
+    <Button
+      component={Link}
+      href={KAKAO_LOGIN_PATH}
+      sx={{
+        backgroundColor: '#ffe500',
+        '&:hover': { backgroundColor: '#ffe500' },
+      }}
+    >
+      <img src={`${KakaoIcon}`} />
+      <Typography sx={{ marginLeft: '8px' }}>카카오로 로그인하기</Typography>
     </Button>
   );
 }
