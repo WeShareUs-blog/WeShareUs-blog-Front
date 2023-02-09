@@ -16,7 +16,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Layout } from '../../components';
+import { KakaoLoginButton, Layout } from '../../components';
 import { useLogin } from '../../libs/auth';
 import { SIGNUP_PATH } from '../../routes/const';
 
@@ -125,6 +125,7 @@ function LoginScreen() {
           >
             로그인하기
           </LoadingButton>
+          <KakaoLoginButton />
         </Stack>
         <FormHelperText>
           처음이신가요?{' '}

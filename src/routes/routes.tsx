@@ -5,7 +5,12 @@ import {
   Route,
   Routes,
 } from 'react-router-dom';
-import { LoginScreen, SignupScreen, TodoScreen } from '../screens';
+import {
+  KakaoAuthScreen,
+  LoginScreen,
+  SignupScreen,
+  TodoScreen,
+} from '../screens';
 import { Header } from '../components';
 import { getStorage } from '../libs/storage';
 import { LOGIN_PATH, SIGNUP_PATH } from './const';
@@ -29,6 +34,7 @@ function AppRouter() {
     <BrowserRouter>
       <Routes>
         <Route path={LOGIN_PATH} element={<LoginScreen />} />
+        <Route path="/login/kakao" element={<KakaoAuthScreen />} />
         <Route path={SIGNUP_PATH} element={<SignupScreen />} />
         <Route path="/:user/*" element={<PrivateRoute />}>
           <Route path="todo" element={<TodoScreen />} />
