@@ -26,6 +26,7 @@ function KakaoAuthScreen() {
       });
     }
   }, []);
+
   // 8. handlers
   return <div>{errorMessage}</div>;
 }

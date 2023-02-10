@@ -32,9 +32,12 @@ jobs:
       - name: Generate Environment
         run: |
           echo "REACT_APP_HOST_NAME=$REACT_APP_HOST_NAME" >> .env.production
+          echo "REACT_APP_REST_API_KEY=$REACT_APP_REST_API_KEY" >> .env.production
+          echo "REACT_APP_REDIRECT_URI=$REACT_APP_REDIRECT_URI" >> .env.production
         env:
           REACT_APP_HOST_NAME: ${{ secrets.REACT_APP_HOST_NAME }}
-
+          REACT_APP_REST_API_KEY: ${{ secrets.REACT_APP_REST_API_KEY }}
+          REACT_APP_REDIRECT_URI: ${{ secrets.REACT_APP_REDIRECT_URI }}
       - name: Build
         run: npm run build
 
