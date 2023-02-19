@@ -61,6 +61,7 @@ function TodoList(props: { todo: Todo }) {
       await updateTodo({
         variables: { id, publishedDate, todoItems },
       });
+      setContent('');
     })();
   };
   const handleAppend = () => {
